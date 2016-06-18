@@ -96,8 +96,12 @@ int acado_hpmpc_ip_wrapper( real_t* A, real_t* B, real_t* b,
     int nx  = NX;
     int nu  = NU;
     int nb  = NB;
-    int ng  = 0;
-    int ngN = 0;
+
+    @QP_ND_ARRAY@
+ 
+    int ngN     = 0;
+    int ng      = nD[0]; // assuming same number of constraints on every stage	
+
     
 
 
@@ -237,8 +241,8 @@ int acado_hpmpc_ip_wrapper( real_t* A, real_t* B, real_t* b,
 	}
 	// middle stage
 	ii = N;
-	hQ[ii] = &Q[ii*nx*nx];
-	hq[ii] = &q[ii*nx];
+	hQ[ii] = &Qf[0*nx*nx];
+	hq[ii] = &qf[0*nx];
 	hx[ii] = &x[ii*nx];
 	hlb[ii] = work; work += nb;
 	hub[ii] = work; work += nb;
@@ -308,7 +312,7 @@ int acado_hpmpc_ip_wrapper( real_t* A, real_t* B, real_t* b,
         {
 			for(kk=0; kk<nu; kk++)
 			{
-				hD[ii][jj*nu+kk] = qpA[ii*ng*(nx + nu) + jj*(nx+nu) + nu+kk];
+				hD[ii][jj*nu+kk] = qpA[ii*ng*(nx + nu) + jj*(nx+nu) + nx+kk];
 			}
         }
 		// TODO copy constraints before modifying them !!!!!
@@ -326,7 +330,7 @@ int acado_hpmpc_ip_wrapper( real_t* A, real_t* B, real_t* b,
 			}
 			for(kk=0; kk<nu; kk++)
 			{
-				hD[ii][jj*nu+kk] = qpA[ii*ng*(nx + nu) + jj*(nx+nu) + nu+kk];
+				hD[ii][jj*nu+kk] = qpA[ii*ng*(nx + nu) + jj*(nx+nu) + nx+kk];
 			}
         }
     }
