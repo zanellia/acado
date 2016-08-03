@@ -158,7 +158,7 @@ int acado_hpmpc_ip_wrapper( real_t* A, real_t* B, real_t* b,
 
 	// (dynamic) memory allocation
 	//double *work0 = (double *) malloc( hpmpc_d_ip_ocp_hard_tv_work_space_size_bytes(N, nx_v, nu_v, nb_v, ng_v) + extra_work_space*sizeof(double) );
-	double work0[100000];
+	double work0[500000];
     double *work = work0;
 
 	/************************************************
