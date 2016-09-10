@@ -11,12 +11,18 @@
 /* ACADO auto-generated header */
 #include "acado_common.h"
 /* HPMPC configuration */
+#ifdef __cplusplus	// All HPMPC functions have C linkage
+extern "C" {
+#endif
 #include "hpmpc/include/target.h"
 #include "hpmpc/include/block_size.h"
 #include "hpmpc/include/aux_d.h"
 #include "hpmpc/include/aux_s.h"
 #include "hpmpc/include/mpc_solvers.h"
 #include "c_interface.h"
+#ifdef __cplusplus
+}
+#endif
 
 // problem size (states, inputs, horizon)
 #define NX ACADO_NX
@@ -63,6 +69,10 @@ void dgemv_n(int m, int n, double alpha, double *A, int lda, double *x, double b
 		z[ii] = beta*y[ii] + alpha*temp;
 	}
 }
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* version dealing with equality constraitns: is lb=ub, then fix the variable (corresponding column in A or B set to zero, and updated b) */
 int acado_hpmpc_ip_wrapper( real_t* A, real_t* B, real_t* b,
@@ -419,3 +429,7 @@ int acado_hpmpc_ip_wrapper( real_t* A, real_t* B, real_t* b,
     return hpmpc_status;
 
 }
+
+#ifdef __cplusplus
+}
+#endif
