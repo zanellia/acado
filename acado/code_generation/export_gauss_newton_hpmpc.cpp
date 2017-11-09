@@ -95,7 +95,7 @@ returnValue ExportGaussNewtonHpmpc::getDataDeclarations(	ExportStatementBlock& d
 	declarations.addDeclaration(qpA, dataStruct);
 	declarations.addDeclaration(qpLbA, dataStruct);
 	declarations.addDeclaration(qpUbA, dataStruct);
-	
+
 	declarations.addDeclaration(sigmaN, dataStruct);
 
 	declarations.addDeclaration(qpLambda, dataStruct);
@@ -178,10 +178,10 @@ returnValue ExportGaussNewtonHpmpc::getCode(	ExportStatementBlock& code
 	code.addFunction( setStagef );
 	code.addFunction( evaluateObjective );
 
-	code.addFunction( evaluatePathConstraints );	
+	code.addFunction( evaluatePathConstraints );
 	code.addFunction( setStagePac );
 	code.addFunction( evaluateConstraints );
-	
+
 	code.addFunction( acc );
 
 	code.addFunction( preparation );
@@ -497,8 +497,8 @@ returnValue ExportGaussNewtonHpmpc::setupConstraintsEvaluation( void )
 	//
 	////////////////////////////////////////////////////////////////////////////
 
-	
-	
+
+
 //	int hardcodeConstraintValues;
 //	get(CG_HARDCODE_CONSTRAINT_VALUES, hardcodeConstraintValues);
 
@@ -606,7 +606,7 @@ returnValue ExportGaussNewtonHpmpc::setupConstraintsEvaluation( void )
 		qpConDim[ N ] += dim;
 	}
 
-	
+
 	if (dimConA) 	// this is a bit of a hack...
 					// dummy qpA, qpUbA and qpLbA are created if there are no polytopic constraints
 	{
@@ -620,7 +620,7 @@ returnValue ExportGaussNewtonHpmpc::setupConstraintsEvaluation( void )
 		qpLbA.setup("qpLbA", 1, 1, REAL, ACADO_WORKSPACE);
 		qpUbA.setup("qpUbA", 1, 1, REAL, ACADO_WORKSPACE);
 	}
-	
+
 	//
 	// Setup constraint values for the whole horizon.
 	//
@@ -826,7 +826,7 @@ returnValue ExportGaussNewtonHpmpc::setupConstraintsEvaluation( void )
 			<< (qpUbA.getRows(offsetEval, offsetEval + dim) ==
 					evUbAValues.getRows(offsetEval, offsetEval + dim) - pocEvH.getRows(offsetPoc, offsetPoc + dim));
 	}
-	
+
 	return SUCCESSFUL_RETURN;
 }
 
@@ -961,7 +961,7 @@ returnValue ExportGaussNewtonHpmpc::setupEvaluation( )
 			<< qpA.getAddressString( true ) << ", "
 			<< qpLbA.getAddressString( true ) << ", "
 			<< qpUbA.getAddressString( true ) << ", "
-			
+
 			<< qpx.getAddressString( true ) << ", "
 			<< qpu.getAddressString( true ) << ", "
 
@@ -1110,17 +1110,21 @@ returnValue ExportGaussNewtonHpmpc::setupQPInterface( )
 	int hotstartQP;
 	get(HOTSTART_QP, hotstartQP);
 
+	int condensingBlockSize;
+	get(CONDENSING_BLOCK_SIZE, condensingBlockSize);
+
 	qpInterface->configure(
 			maxNumQPiterations,
 			printLevel,
 			useSinglePrecision,
 			hotstartQP,
+			condensingBlockSize,
 			qpA.getFullName(),
 			qpLbA.getFullName(),
 			qpUbA.getFullName(),
 			qpConDim,
 			N, NX, NU
-			
+
 	);
 
 	return SUCCESSFUL_RETURN;
