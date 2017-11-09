@@ -73,7 +73,7 @@ returnValue ExportHpmpcInterface::configure(	const unsigned _maxIter,
 	}
 	else
 	{
-		dictionary[ "@CONDENSING_BLOCK_SIZE@" ] =  "";
+		dictionary[ "@CONDENSING_BLOCK_SIZE@" ] =  "1";
 	}
 
 	if (conDim.size() > 0)
