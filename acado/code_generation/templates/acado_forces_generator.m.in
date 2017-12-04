@@ -211,11 +211,22 @@ end;
 codeoptions = getOptions('@SOLVER_NAME@');
 
 codeoptions.overwrite	= 1; % Always overwrite the existing code
-codeoptions.printlevel	= @PRINT_LEVEL@;
+codeoptions.printlevel	= 0;
 codeoptions.maxit		= @MAX_ITERATIONS@;
 codeoptions.parallel	= @PARALLEL@;
-codeoptions.init	    = @WARM_START@;
 
+% codeoptions.init	    = 0;
+
+% codeoptions.mu0 = 1e6; % if pivot element < epsilon … 
+
+%% codeoptions.accuracy.ineq = 1e-5;  % infinity norm of residual for inequalities
+%% codeoptions.accuracy.eq = 1e-5;    % infinity norm of residual for equalities
+%% codeoptions.accuracy.mu = 1e-5;    % absolute duality gap
+codeoptions.accuracy.rdgap = 1e10; % relative duality gap := (pobj-dobj)/pobj
+
+%%codeoptions.linesearch.minstep = 1e-12;
+
+codeoptions.BuildSimulinkBlock = 0;
 
 %% Generate code
 generateCode(stages, params, codeoptions, outputs);
