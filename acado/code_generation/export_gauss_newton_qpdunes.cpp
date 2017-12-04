@@ -1002,14 +1002,18 @@ returnValue ExportGaussNewtonQpDunes::setupEvaluation( )
 	// Setup preparation phase
 	//
 	////////////////////////////////////////////////////////////////////////////
-	preparation.setup("preparationStep");
+	ExportVariable sim_time;
+	sim_time.setup("sim_time", 1, 1, REAL, ACADO_LOCAL);
+	preparation.init( "preparationStep",  sim_time);
 	preparation.doc( "Preparation step of the RTI scheme." );
-
 	ExportVariable retSim("ret", 1, 1, INT, ACADO_LOCAL, true);
 	retSim.setDoc("Status of the integration module. =0: OK, otherwise the error code.");
 	preparation.setReturnValue(retSim, false);
 
+	preparation << "acado_timer sim_tmr;\n\n";
+	preparation << "acado_tic(&sim_tmr);\n";
 	preparation	<< retSim.getFullName() << " = " << modelSimulation.getName() << "();\n";
+	preparation << "*sim_time = acado_toc(&sim_tmr);\n";ation	<< retSim.getFullName() << " = " << modelSimulation.getName() << "();\n";
 
 	preparation.addFunctionCall( evaluateObjective );
 	if( regularizeHessian.isDefined() ) preparation.addFunctionCall( regularizeHessian );
