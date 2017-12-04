@@ -2027,14 +2027,19 @@ returnValue ExportGaussNewtonCN2::setupEvaluation( )
 	//
 	////////////////////////////////////////////////////////////////////////////
 
-	preparation.setup( "preparationStep" );
+	ExportVariable sim_time;
+	sim_time.setup("sim_time", 1, 1, REAL, ACADO_LOCAL);
+	preparation.init( "preparationStep",  sim_time);
 	preparation.doc( "Preparation step of the RTI scheme." );
 	ExportVariable retSim("ret", 1, 1, INT, ACADO_LOCAL, true);
 	retSim.setDoc("Status of the integration module. =0: OK, otherwise the error code.");
 	preparation.setReturnValue(retSim, false);
 
+	preparation << "acado_timer sim_tmr;\n\n";
+	preparation << "acado_tic(&sim_tmr);\n";
 	preparation	<< retSim.getFullName() << " = " << modelSimulation.getName() << "();\n";
-
+	preparation << "*sim_time = acado_toc(&sim_tmr);\n";
+	
 	preparation.addFunctionCall( evaluateObjective );
 	if( regularizeHessian.isDefined() ) { // ALSO IN THE CASE OF CONDENSED REGULARIZATION, THIS IS CURRENTLY NECESSARY:
 		preparation.addFunctionCall( regularizeHessian );
@@ -2120,10 +2125,10 @@ returnValue ExportGaussNewtonCN2::setupQPInterface( )
 {
 	string folderName;
 	get(CG_EXPORT_FOLDER_NAME, folderName);
-	
+
     string moduleName;
 	get(CG_MODULE_NAME, moduleName);
-	
+
     int qpSolver;
 	get(QP_SOLVER, qpSolver);
 
