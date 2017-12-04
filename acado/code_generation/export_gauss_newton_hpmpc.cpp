@@ -872,8 +872,8 @@ returnValue ExportGaussNewtonHpmpc::setupEvaluation( )
 	preparation << "acado_timer sim_tmr;\n\n";
 	preparation << "acado_tic(&sim_tmr);\n";
 	preparation	<< retSim.getFullName() << " = " << modelSimulation.getName() << "();\n";
-	preparation << "*sim_time = acado_toc(&sim_tmr);\n";eparation	<< retSim.getFullName() << " = " << modelSimulation.getName() << "();\n";
-
+	preparation << "*sim_time = acado_toc(&sim_tmr);\n";
+	
 	preparation.addFunctionCall( evaluateObjective );
 	preparation.addFunctionCall( evaluateConstraints );
 
