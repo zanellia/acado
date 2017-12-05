@@ -211,11 +211,10 @@ end;
 codeoptions = getOptions('@SOLVER_NAME@');
 
 codeoptions.overwrite	= 1; % Always overwrite the existing code
-codeoptions.printlevel	= 0;
-codeoptions.maxit		= @MAX_ITERATIONS@;
+codeoptions.printlevel	= @PRINT_LEVEL@;
+codeoptions.maxit	= @MAX_ITERATIONS@;
 codeoptions.parallel	= @PARALLEL@;
-
-% codeoptions.init	    = 0;
+codeoptions.init	= @WARM_START@;
 
 % codeoptions.mu0 = 1e6; % if pivot element < epsilon … 
 
