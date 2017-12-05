@@ -473,7 +473,7 @@ returnValue OCPexport::setup( )
  	//
 	string moduleName;
 	get(CG_MODULE_NAME, moduleName);
- 	commonHeaderName = moduleName + "_common.h\"\n" + "#include \"" + moduleName + "_auxiliary_functions.h";
+ 	commonHeaderName = moduleName + "_common.h";
 
 	//
 	// Prepare integrator export
