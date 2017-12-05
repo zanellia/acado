@@ -121,6 +121,10 @@ returnValue ExportGaussNewtonForces::getCode(	ExportStatementBlock& code
 	setupQPInterface();
 	code.addStatement( *qpInterface );
 
+	// TODO(Andrea): this will break when multiple ACADO modules are generated (i.e. acado_common.h will have
+	// a different name. I could not find an easy way to add additional headers to @MODULE_NAME@_solver.h/c)
+	code.addStatement( "#include \"acado_auxiliary_functions.h\"\n" );
+
 	code.addLinebreak( 2 );
 	code.addStatement( "/******************************************************************************/\n" );
 	code.addStatement( "/*                                                                            */\n" );
@@ -918,14 +922,18 @@ returnValue ExportGaussNewtonForces::setupEvaluation( )
 	// Setup preparation phase
 	//
 	////////////////////////////////////////////////////////////////////////////
-	preparation.setup("preparationStep");
+	ExportVariable sim_time;
+	sim_time.setup("sim_time", 1, 1, REAL, ACADO_LOCAL);
+	preparation.init( "preparationStep",  sim_time);
 	preparation.doc( "Preparation step of the RTI scheme." );
-
 	ExportVariable retSim("ret", 1, 1, INT, ACADO_LOCAL, true);
 	retSim.setDoc("Status of the integration module. =0: OK, otherwise the error code.");
 	preparation.setReturnValue(retSim, false);
 
+	preparation << "acado_timer sim_tmr;\n\n";
+	preparation << "acado_tic(&sim_tmr);\n";
 	preparation	<< retSim.getFullName() << " = " << modelSimulation.getName() << "();\n";
+	preparation << "*sim_time = acado_toc(&sim_tmr);\n";
 
 	preparation.addFunctionCall( evaluateObjective );
 	preparation.addFunctionCall( evaluateConstraints );
