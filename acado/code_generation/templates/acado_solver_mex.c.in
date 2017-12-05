@@ -216,11 +216,10 @@ void mexFunction(	int nlhs,
 
 	const char *infoNames[ 6 ] = {"status", "cpuTime", "simTime", "kktValue", "objValue", "nIterations"};
 	mxArray* info;
-	double status, cpuTime, kktValue, objValue;
+	double status, cpuTime, simTime, kktValue, objValue;
 	double tmp[ 1 ];
 	mxArray* shPtr;
 	@MODULE_NAME@_timer tmr;
-	real_t simTime;
 	double nIterations = 0;
 
 	const char *outNames[ NOO_4 ];
@@ -503,7 +502,7 @@ void mexFunction(	int nlhs,
 #endif /* @MODULE_PREFIX@_COMPUTE_COVARIANCE_MATRIX */
 
 	/* Create the info structure. */
-	info = mxCreateStructMatrix(1, 1, 5, infoNames);
+	info = mxCreateStructMatrix(1, 1, 6, infoNames);
 
 	setArray(info, 0, "status", &status, 1, 1);
 	setArray(info, 0, "cpuTime", &cpuTime, 1, 1);
