@@ -166,6 +166,10 @@ returnValue ExportGaussNewtonCondensed::getCode(	ExportStatementBlock& code
 														)
 {
 	setupQPInterface();
+	
+	// TODO(Andrea): this will break when multiple ACADO modules are generated (i.e. acado_common.h will have
+	// a different name. I could not find an easy way to add additional headers to @MODULE_NAME@_solver.h/c)
+	code.addStatement( "#include \"acado_auxiliary_functions.h\"\n" );
 
 	code.addLinebreak( 2 );
 	code.addStatement( "/******************************************************************************/\n" );

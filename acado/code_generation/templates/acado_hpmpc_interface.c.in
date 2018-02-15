@@ -550,8 +550,8 @@ for(ii=0; ii<=N; ii++)
 //		return 1;
 
 	// free memory
-	//free(work);
-
+	// free(work);
+	*nIt = kk;	
     return hpmpc_status;
 
 }

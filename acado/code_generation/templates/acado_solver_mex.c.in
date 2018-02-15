@@ -413,7 +413,9 @@ void mexFunction(	int nlhs,
 #if ( (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES) || (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES3) )
 			nIterations = (double)@MODULE_NAME@_getNWSR();
 #elif @MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_FORCES
-			nIterations = @MODULE_NAME@Forces_info.it;
+			nIterations = (double)@MODULE_NAME@Forces_info.it;
+#elif @MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_HPMPC
+			nIterations = (double)(*@MODULE_NAME@Workspace.nIt);
 #elif @MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPDUNES
 			nIterations = qpData.log.numIter;
 #endif /* @MODULE_PREFIX@_QP_SOLVER */
@@ -458,9 +460,12 @@ void mexFunction(	int nlhs,
 #if ( (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES) || (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES3) )
 			nIterations = (double)@MODULE_NAME@_getNWSR();
 #elif @MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_FORCES
-			nIterations = @MODULE_NAME@Forces_info.it;
+			nIterations = (double)@MODULE_NAME@Forces_info.it;
+#elif @MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_HPMPC
+			nIterations = (double)(*@MODULE_NAME@Workspace.nIt);
+#elif @MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPDUNES
+			nIterations = qpData.log.numIter;
 #endif /* @MODULE_PREFIX@_QP_SOLVER */
-
 			break;
 
 		case 4:
@@ -509,7 +514,7 @@ void mexFunction(	int nlhs,
 	setArray(info, 0, "simTime", &simTime, 1, 1);
 	setArray(info, 0, "kktValue", &kktValue, 1, 1);
 	setArray(info, 0, "objValue", &objValue, 1, 1);
-#if ( (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES) || (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES3) )
+#if ( (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES) || (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES3) || (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_HPMPC) || (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPDUNES))
 	setArray(info, 0, "nIterations", &nIterations, 1, 1);
 #endif /* ( (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES) || (@MODULE_PREFIX@_QP_SOLVER == @MODULE_PREFIX@_QPOASES3) ) */
 
