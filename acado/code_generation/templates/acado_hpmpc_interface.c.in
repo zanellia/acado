@@ -379,7 +379,7 @@ int acado_hpmpc_ip_wrapper( real_t* A, real_t* B, real_t* b,
 	// final stage
 	jjj = 0;
 	for(jj=0; jj<nx; jj++)
-        {
+         {
 #if 0
 		hlb[N][jj] = lb[ nu*N + nx*(N-1) + jj ];
 		hub[N][jj] = ub[ nu*N + nx*(N-1) + jj ];
@@ -550,8 +550,8 @@ for(ii=0; ii<=N; ii++)
 //		return 1;
 
 	// free memory
-	//free(work);
-
+	// free(work);
+	*nIt = kk;	
     return hpmpc_status;
 
 }
